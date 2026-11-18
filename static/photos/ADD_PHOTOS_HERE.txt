@@ -1,0 +1,14 @@
+Put your own pictures in this folder and use these exact filenames:
+cover.jpg                 - first page framed picture
+pookie-cat-flower.png     - cat holding a flower (transparent PNG looks nice)
+birthday-cat.png          - cat wearing a birthday hat
+theatre.jpg               - her picture shown on the theatre screen
+rose-garden.jpg           - rose garden picture
+photo1.jpg                - gallery / falling photo 1
+photo2.jpg                - gallery / falling photo 2
+photo3.jpg                - gallery / falling photo 3
+photo4.jpg                - gallery / falling photo 4
+portrait.jpg              - picture for the long birthday message
+
+You can use JPG, PNG or WEBP, but if you use another extension, also change the filename in templates/index.html and static/js/script.js.
+
