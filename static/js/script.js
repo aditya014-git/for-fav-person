@@ -1,87 +1,135 @@
+
+// ==========================================
+// PAGE NAVIGATION
+// ==========================================
+
 const pages = document.querySelectorAll(".page");
 const music = document.getElementById("bgMusic");
 const musicToggle = document.getElementById("musicToggle");
 
 function showPage(id) {
-  pages.forEach(page => page.classList.toggle("active", page.id === id));
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    pages.forEach(page => {
+        page.classList.toggle("active", page.id === id);
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
+
+
+// ==========================================
+// SECRET CODE - PAGE 1
+// ==========================================
 
 document.getElementById("codeForm").addEventListener("submit", function (event) {
-  event.preventDefault();
-  const code = document.getElementById("secretCode").value.trim();
-  const error = document.getElementById("codeError");
-  if (code === "26") {
-    startBirthdayMusic();
-    error.textContent = "";
-    showPage("questionPage");
-  } else {
-    error.textContent = "Incorrect password. Please try again! 💗";
-    document.getElementById("secretCode").value = "";
-    document.getElementById("secretCode").focus();
-  }
+    event.preventDefault();
+
+    const code = document.getElementById("secretCode").value.trim();
+    const error = document.getElementById("codeError");
+
+    if (code === "26") {
+        startBirthdayMusic();
+        error.textContent = "";
+        showPage("questionPage");
+    } else {
+        error.textContent = "Incorrect password. Please try again! 💗";
+
+        document.getElementById("secretCode").value = "";
+        document.getElementById("secretCode").focus();
+    }
 });
+
+
+// ==========================================
+// CAT QUESTION - PAGE 2
+// ==========================================
 
 document.getElementById("noBtn").addEventListener("click", () => {
-  alert("Please cutie, see it once! 🥺💗");
+    alert("Please cutie, see it once! 🥺💗");
 });
-document.getElementById("yesBtn").addEventListener("click", () => showPage("birthdayPage"));
+
+document.getElementById("yesBtn").addEventListener("click", () => {
+    showPage("birthdayPage");
+});
+
+
+// ==========================================
+// NEXT PAGE BUTTONS
+// ==========================================
 
 document.querySelectorAll("[data-go]").forEach(button => {
-  button.addEventListener("click", () => showPage(button.dataset.go));
+    button.addEventListener("click", () => {
+        showPage(button.dataset.go);
+    });
 });
+
+
+// ==========================================
+// GIFT BUTTONS
+// ==========================================
+
 document.querySelectorAll("[data-gift]").forEach(button => {
-  button.addEventListener("click", () => {
-    const giftId = button.dataset.gift;
-    showPage(giftId);
-    if (giftId === "gift5") makeFallingPhotos();
-  });
+    button.addEventListener("click", () => {
+        const giftId = button.dataset.gift;
+        showPage(giftId);
+    });
 });
+
+
+// ==========================================
+// BACK TO GIFTS BUTTON
+// ==========================================
+
 document.querySelectorAll(".back-btn").forEach(button => {
-  button.addEventListener("click", () => showPage("giftsPage"));
+    button.addEventListener("click", () => {
+        showPage("giftsPage");
+    });
 });
 
-musicToggle.addEventListener("click", async () => {
-  try {
-    if (music.paused) {
-      await music.play();
-      musicToggle.textContent = "♫ Music on";
-    } else {
-      music.pause();
-      musicToggle.textContent = "♫ Music";
-    }
-  } catch (error) {
-    alert("Add your song as static/music/song.mp3, then tap Music again. 🎵");
-  }
-});
 
-document.getElementById("proposalYes").addEventListener("click", () => {
-  document.getElementById("proposalReply").textContent =
-    "You just made this little birthday surprise even more special. 💗";
-});
-document.getElementById("proposalMaybe").addEventListener("click", () => {
-  document.getElementById("proposalReply").textContent =
-    "That's okay! Take your time — no pressure at all. 🌷";
-});
+// ==========================================
+// BACKGROUND MUSIC
+// ==========================================
 
-let photosCreated = false;
-function makeFallingPhotos() {
-  if (photosCreated) return;
-  photosCreated = true;
-  const holder = document.getElementById("fallingPhotos");
-  ["photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg"].forEach(name => {
-    const img = document.createElement("img");
-    img.src = `/static/photos/${name}`;
-    img.alt = "A happy memory";
-    img.onerror = () => img.remove();
-    holder.appendChild(img);
-  });
+function startBirthdayMusic() {
+    if (!music) return;
+
+    music.volume = 0.4;
+
+    music.play().then(() => {
+        if (musicToggle) {
+            musicToggle.textContent = "♫ Music on";
+        }
+    }).catch(error => {
+        console.log("Music could not start:", error);
+    });
 }
 
+if (musicToggle && music) {
+    musicToggle.addEventListener("click", async () => {
+        try {
+            if (music.paused) {
+                await music.play();
+                musicToggle.textContent = "♫ Music on";
+            } else {
+                music.pause();
+                musicToggle.textContent = "♫ Music";
+            }
+        } catch (error) {
+            alert("Please check your song file: static/music/song.mp3 🎵");
+        }
+    });
+}
+
+
+// ==========================================
 // GIFT 5 - 50 REASONS
+// ==========================================
 
 const reasons = [
-  
+
     "Aapse baat karke genuinely mood achha ho jaata hai.",
     "Aapki smile mein kuch alag hi baat hai.",
     "Aap bina kuch special kiye bhi special lagti hain.",
@@ -100,7 +148,7 @@ const reasons = [
     "You make conversations feel comfortable.",
     "Aapki personality mein kuch alag sa hai.",
     "You have a beautiful way of expressing yourself.",
-    "Aapki smile aap par bahut suit karti hai.",
+    "Aapki smile aap par bahut suit karti hain.",
     "Aapki chhoti-chhoti baatein notice karne layak hain.",
     "You seem like someone worth knowing better.",
 
@@ -136,48 +184,73 @@ const reasons = [
     "Aapki smile dekhkar compliment dene ka mann karta hai.",
     "There is always something nice to notice about you.",
     "Simply because you're YOU. ❤️"
+
 ];
 
 let openedReasons = 0;
 let shuffledReasons = [];
 
 function pickReason() {
+
     const note = document.getElementById("revealedNote");
     const reasonText = document.getElementById("reasonText");
     const counter = document.getElementById("noteCounter");
     const button = document.getElementById("pickNoteBtn");
     const finalMessage = document.getElementById("finalMessage");
 
+    if (!note || !reasonText || !counter || !button || !finalMessage) {
+        console.error("Gift 5 HTML elements are missing.");
+        return;
+    }
+
+    // Shuffle the reasons only once
     if (openedReasons === 0) {
+
         shuffledReasons = [...reasons];
 
         for (let i = shuffledReasons.length - 1; i > 0; i--) {
+
             const j = Math.floor(Math.random() * (i + 1));
+
             [shuffledReasons[i], shuffledReasons[j]] =
                 [shuffledReasons[j], shuffledReasons[i]];
+
         }
     }
 
+    // Reveal the next reason
     if (openedReasons < 50) {
+
         reasonText.textContent = shuffledReasons[openedReasons];
 
         openedReasons++;
 
-        counter.textContent = openedReasons + " / 50 notes opened";
+        counter.textContent =
+            openedReasons + " / 50 notes opened";
 
         note.classList.remove("show");
+
         void note.offsetWidth;
+
         note.classList.add("show");
 
+        // After all 50 reasons
         if (openedReasons === 50) {
+
             button.textContent = "All 50 notes opened 💗";
+
             button.disabled = true;
+
             finalMessage.classList.add("show");
+
         }
     }
 }
 
+
+// ==========================================
 // GIFT 7 - FINAL MYSTERY BOX
+// ==========================================
 
 function unlockMystery() {
 
@@ -185,7 +258,7 @@ function unlockMystery() {
         document.getElementById("mysteryCode").value.trim();
 
     const error =
-        document.getElementById("codeError");
+        document.querySelector("#gift7 .code-error");
 
     const box =
         document.getElementById("mysteryBox");
@@ -204,19 +277,24 @@ function unlockMystery() {
         error.textContent = "";
 
         box.classList.add("open");
+
         codeArea.style.display = "none";
 
         setTimeout(() => {
 
             surprise.classList.add("show");
+
             box.style.display = "none";
 
             video.muted = true;
+
             video.currentTime = 0;
 
             video.play().catch(() => {
+
                 error.textContent =
                     "Please press Play to watch your surprise 💗";
+
             });
 
         }, 1000);
@@ -225,76 +303,26 @@ function unlockMystery() {
 
         error.textContent =
             "Oops! Wrong code. Try again! 💗";
-    }
-}
-function playGift9Video() {
-    const video = document.getElementById("gift9Video");
 
-    if (video) {
-        video.muted = true;
-        video.play().catch(() => {
-            console.log("Gift 9 autoplay was blocked.");
-        });
     }
 }
+
+
+// ==========================================
+// GIFT 6 - VIDEO
+// ==========================================
 
 function playGift6Video() {
+
     const video = document.getElementById("gift6Video");
 
     if (video) {
+
         video.muted = true;
+
         video.play().catch(() => {
             console.log("Gift 6 autoplay blocked.");
         });
+
     }
-}
-
-// BACKGROUND MUSIC
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const music = document.getElementById("bgMusic");
-    const musicButton = document.getElementById("musicToggle");
-
-    if (!music) return;
-
-    music.volume = 0.4;
-
-    function startMusic() {
-        music.play().catch(error => {
-            console.log("Music playback blocked:", error);
-        });
-    }
-
-    // Try autoplay
-    startMusic();
-
-    // Start on first interaction if autoplay is blocked
-    document.addEventListener("click", startMusic, { once: true });
-    document.addEventListener("touchstart", startMusic, { once: true });
-
-    // Music button
-    if (musicButton) {
-        musicButton.addEventListener("click", function () {
-            if (music.paused) {
-                music.play();
-                musicButton.textContent = "♫ Pause Music";
-            } else {
-                music.pause();
-                musicButton.textContent = "♫ Music";
-            }
-        });
-    }
-
-});
-
-function startBirthdayMusic() {
-    const music = document.getElementById("bgMusic");
-
-    if (!music) return;
-
-    music.volume = 0.4;
-    music.play().catch(error => {
-        console.log("Music could not start:", error);
-    });
 }
