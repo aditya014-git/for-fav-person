@@ -632,3 +632,47 @@ video {
     }
 }
 
+
+/* GIFT 8 - CELEBRATION EFFECT */
+
+.fireworks-scene.celebrating .firework {
+    animation: celebrationBurst 1.2s ease-in-out infinite;
+}
+
+.fireworks-scene.celebrating .firework-two {
+    animation-delay: .2s;
+}
+
+.fireworks-scene.celebrating .firework-three {
+    animation-delay: .4s;
+}
+
+.fireworks-scene.celebrating .fireworks-message {
+    animation: wishGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes celebrationBurst {
+    0% {
+        transform: scale(.5) rotate(-20deg);
+        opacity: .3;
+    }
+    50% {
+        transform: scale(1.7) rotate(20deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(.7) rotate(-10deg);
+        opacity: .4;
+    }
+}
+
+@keyframes wishGlow {
+    from {
+        text-shadow: 0 0 8px #ffc7e8;
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 0 0 25px #fff, 0 0 35px #ffb6dc;
+        transform: scale(1.04);
+    }
+}
