@@ -326,3 +326,40 @@ function playGift6Video() {
 
     }
 }
+
+// ==========================================
+// GIFT 8 - FIREWORKS SHOW
+// ==========================================
+
+function startFireworks() {
+
+    const message = document.getElementById("fireworksMessage");
+    const scene = document.getElementById("fireworksScene");
+    const button = document.getElementById("wishButton");
+
+    if (!message || !scene || !button) {
+        console.error("Gift 8 HTML elements are missing.");
+        return;
+    }
+
+    const wishes = [
+        "May your dreams shine as brightly as these fireworks! ✨",
+        "Wishing you endless happiness and beautiful memories! 💗",
+        "May every new day bring you something wonderful! 🌸",
+        "You deserve all the happiness in the universe! ❤️",
+        "Keep shining, keep smiling, and never stop dreaming! 🌟"
+    ];
+
+    const randomWish = wishes[
+        Math.floor(Math.random() * wishes.length)
+    ];
+
+    message.textContent = randomWish;
+
+    // Restart the fireworks animation
+    scene.classList.remove("celebrating");
+    void scene.offsetWidth;
+    scene.classList.add("celebrating");
+
+    button.textContent = "Make Another Wish ✨";
+}
